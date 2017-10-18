@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uca:Alarms xmlns:uca="http://hp.com/uca/expert/x733Alarm"
+	xmlns="http://hp.com/uca/expert/x733Alarm">
+	<AlarmCreationInterface xmlns="http://hp.com/uca/expert/x733Alarm">
+		<identifier>OPERATION_CONTEXT .uca_network alarm_object 1111111</identifier>
+		<sourceIdentifier>TeMIP EMS</sourceIdentifier>
+		<originatingManagedEntity>WorkMemory test01</originatingManagedEntity>
+		<originatingManagedEntityStructure>
+			<classInstance clazz="WorkMemory" instance="test01" />
+		</originatingManagedEntityStructure>
+		<alarmType>COMMUNICATIONS_ALARM</alarmType>
+		<probableCause>LossOfSignal</probableCause>
+		<perceivedSeverity>CRITICAL</perceivedSeverity>
+		<networkState>NOT_CLEARED</networkState>
+		<operatorState>NOT_ACKNOWLEDGED</operatorState>
+		<problemState>NOT_HANDLED</problemState>
+		<problemInformation></problemInformation>
+		<additionalInformation></additionalInformation>
+		<additionalText>Hello Working Memory test01</additionalText>
+		<parents></parents>
+		<parents></parents>
+		
+	</AlarmCreationInterface>
+	
+	
+	
+	
+</uca:Alarms>

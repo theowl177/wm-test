@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util.xsd
+                           http://www.springframework.org/schema/jms 
+                           http://www.springframework.org/schema/jms/spring-jms.xsd
+                           http://activemq.apache.org/schema/core 
+                           http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+	<context:component-scan base-package="com.hp.uca.expert" />
+
+	<!-- UCA EBC Properties -->
+
+	<bean id="appConfig"  
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="properties">
+       <bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+         <property name="targetClass" value="org.apache.commons.configuration.ConfigurationConverter" />
+         <property name="targetMethod" value="getProperties" />
+         <property name="arguments" ref="ucaebcProperties" />
+       </bean>
+    </property>
+	</bean>
+
+  <bean id="ucaebcProperties" class="org.apache.commons.configuration.PropertiesConfiguration">
+        <constructor-arg index="0"><value>uca-ebc.properties</value></constructor-arg>
+  </bean>
+
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" ref="appConfig" />
+	</bean>
+
+	<!-- register any annotation beans as JMX MBean -->
+
+	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter"
+		lazy-init="false">
+		<property name="autodetect" value="true"></property>
+		<property name="namingStrategy" ref="namingStrategy"></property>
+		<property name="assembler" ref="assembler"></property>
+		<property name="registrationBehavior" value="2" /> <!-- REGISTER_REPLACE_EXISTING -->
+	</bean>
+	<bean id="attributeSource"
+		class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource" />
+	<bean id="assembler"
+		class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
+		<property name="attributeSource" ref="attributeSource" />
+	</bean>
+	<bean id="namingStrategy"
+		class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
+		<property name="attributeSource" ref="attributeSource" />
+	</bean>
+	<bean id="registry" class="org.springframework.remoting.rmi.RmiRegistryFactoryBean"
+		p:port="${uca.ebc.jmx.rmi.port}" />
+
+	<!-- Expose JMX over RMI -->
+	<bean id="serverConnector"
+		class="org.springframework.jmx.support.ConnectorServerFactoryBean"
+		p:objectName="connector:name=rmi"
+		p:serviceUrl="service:jmx:rmi://${uca.ebc.serverhost}/jndi/rmi://${uca.ebc.serverhost}:${uca.ebc.jmx.rmi.port}/uca-ebc"
+		depends-on="registry" />
+
+
+	<!-- Embedded ActiveMQ Broker -->
+	<amq:broker id="broker" useJmx="true" persistent="false">
+		<amq:managementContext>
+			<amq:managementContext createMBeanServer="false"
+				createConnector="false" />
+			<!-- for ActiveMQ to create its own JMX connector, use <amq:managementContext 
+				connectorPort="1099" /> -->
+		</amq:managementContext>
+		<amq:transportConnectors>
+      <!-- Using nio transport instead of tcp for performance -->
+      <amq:transportConnector uri="nio://${uca.ebc.serverhost}:${uca.ebc.jms.broker.port}" />
+		</amq:transportConnectors>
+    <amq:destinationPolicy>
+        <amq:policyMap>
+            <amq:policyEntries>
+                <amq:policyEntry topic=">" producerFlowControl="true" memoryLimit="350mb" topicPrefetch="1" blockedProducerWarningInterval="30">
+                    <amq:pendingMessageLimitStrategy>
+                        <amq:constantPendingMessageLimitStrategy limit="-1"/>
+                    </amq:pendingMessageLimitStrategy>
+                </amq:policyEntry>                    
+                <amq:policyEntry queue=">" producerFlowControl="true" memoryLimit="350mb" queuePrefetch="1" blockedProducerWarningInterval="30">
+                    <amq:pendingQueuePolicy>
+                        <amq:vmQueueCursor/>
+                    </amq:pendingQueuePolicy>
+                </amq:policyEntry>
+            </amq:policyEntries>
+        </amq:policyMap>
+    </amq:destinationPolicy>
+    <amq:systemUsage>
+        <amq:systemUsage sendFailIfNoSpaceAfterTimeout="60000">
+            <amq:memoryUsage>
+                <amq:memoryUsage limit="350 mb" /><!-- memory limit for NON_PERSISTENT messages -->
+            </amq:memoryUsage>
+            <amq:tempUsage>
+                <amq:tempUsage limit="300 mb" /><!-- total usage limit for temporary messages -->
+            </amq:tempUsage>
+        </amq:systemUsage>
+    </amq:systemUsage>
+	</amq:broker>
+
+	<!-- ActiveMQ Destination -->
+	<amq:topic id="destination" physicalName="com.hp.uca.ebc.alarms" />
+
+	<!-- JMS ConnectionFactory to use, configuring the embedded broker using 
+		XML -->
+	<amq:connectionFactory id="jmsFactory"
+		brokerURL="tcp://${uca.ebc.serverhost}:${uca.ebc.jms.broker.port}" />
+
+	<!-- JMS Consumer Configuration -->
+	<bean id="jmsConsumerConnectionFactory"
+		class="org.springframework.jms.connection.SingleConnectionFactory"
+		depends-on="broker" p:targetConnectionFactory-ref="jmsFactory" />
+
+	<jms:listener-container container-type="default"
+		destination-type="topic" connection-factory="jmsConsumerConnectionFactory"
+		acknowledge="auto">
+		<jms:listener id="T-Collector" destination="com.hp.uca.ebc.alarms" ref="eventMessagingListener" />
+	</jms:listener-container>
+
+	<!-- UCA Expert Components -->
+	<bean id="expert" class="com.hp.uca.expert.engine.ExpertContainer" />
+
+	<bean id="eventMessagingListener" class="com.hp.uca.expert.collector.alarm.AlarmCollector">
+		<property name="helper" ref="myHelper" />
+	</bean>
+	<bean id="myHelper" class="com.hp.uca.expert.alarm.marshal.AlarmMarshallingHelper">
+	</bean>
+	
+	<!-- For UCA-EBC 3.3 -->
+	<jms:listener-container container-type="default"
+		destination-type="topic" connection-factory="jmsConsumerConnectionFactory"
+		acknowledge="auto">
+		<jms:listener id="T-EventCollector" destination="com.hp.uca.ebc.events" ref="eventBoxMessagingListener" />
+	</jms:listener-container>
+	
+	<bean id="eventBoxMessagingListener" class="com.hp.uca.expert.collector.event.EventCollector">
+		<property name="helper" ref="eventHelper" />
+	</bean>
+	<bean id="eventHelper" class="com.hp.uca.expert.event.marshal.EventMarshallingHelper">
+	</bean>
+
+	<bean id="alarmForwarders" class="com.hp.uca.expert.alarm.internal.AlarmForwarders" />
+
+	<bean id="jmxManager" class="com.hp.uca.expert.jmx.JMXManager">
+		<property name="exporter" ref="exporter" />
+	</bean>
+
+	<bean id="valuePackManager" class="com.hp.uca.expert.vp.internal.ValuePackManager"
+		scope="singleton">
+		<property name="jmxManager" ref="jmxManager" />
+	</bean>
+
+	<bean id="dispatcher" class="com.hp.uca.expert.dispatcher.Dispatcher">
+		<property name="valuePackManager" ref="valuePackManager" />
+		<property name="helper" ref="myHelper" />
+	</bean>
+		
+</beans>

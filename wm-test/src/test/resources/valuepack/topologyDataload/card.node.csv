@@ -1,0 +1,8 @@
+@ref(),@const(card)type,@const(IPMPLS)subDomain
+@index(CardsByUniqueId)uniqueId,MO,name
+mebj96cgn01cn_fpc_10,NNMi_NODE OP_ns:."MEBJ96CGN01",mebj96cgn01cn_fpc_10
+card_1-fpc,,card_1-fpc
+mebj96cgn01cn_pic_10_1,NNMi_NODE OP_ns:."MEBJ96CGN01",mebj96cgn01cn_pic_10_1
+card_2-pic,,card_2-pic
+mebj96cgn01cn_fpc_1,,mebj96cgn01cn_fpc_1
+mebj96cgn01cn_fpc_2,,mebj96cgn01cn_fpc_2

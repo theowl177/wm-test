@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:amq="http://activemq.apache.org/schema/core" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context 
+                           http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/jms 
+                           http://www.springframework.org/schema/jms/spring-jms.xsd
+                           http://activemq.apache.org/schema/core 
+                           http://activemq.apache.org/schema/core/activemq-core.xsd">
+
+
+	<context:annotation-config />
+
+
+	<bean id="problemsFactory" class="com.hp.uca.expert.vp.pd.core.ProblemsFactory">
+		<property name="problemPackageName" value="com.hp.uca.expert.vp.pd.problem." />
+		<property name="problemClassNamePrefix" value="Problem_" />
+		<property name="problemClassName" value="ProblemDefault" />
+		<property name="generalBehaviorClassName" value="MyGeneralBehavior" />		
+		<property name="xmlProblemClassName" value="WMTProblem" />
+		<property name="xmlGenericDefaultPrefix" value="Library_" />
+		<property name="problemContextPackage" value="com.hp.uca.expert.vp.pd.core." />
+	</bean>	
+	
+	<!-- 
+	<bean id="propagationsFactory" class="com.hp.uca.expert.vp.tp.core.PropagationsFactory">
+		<property name="propagationPackageName" value="com.hp.uca.expert.vp.tp.propagation." />
+		<property name="propagationClassNamePrefix" value="Propagation_" />
+		<property name="propagationClassName" value="IPMPLSPropagation" />
+		<property name="generalBehaviorClassName" value="MyGeneralBehavior" />		
+		<property name="xmlPropagationClassName" value="XmlPropagation" />
+		<property name="xmlGenericDefaultPrefix" value="Xml_" />
+		<property name="propagationContextPackage" value="com.hp.uca.expert.vp.tp.core." />
+	</bean>
+	 -->
+
+	<bean name="forwardedAlarmsFile" class="java.io.File">
+           <constructor-arg index="0"><value>rca-forwarded-alarms.xml</value></constructor-arg><!-- String pathname -->
+	</bean>
+	
+	
+	<bean name="alarmForwarderRCA" class="com.hp.uca.expert.alarm.FileAlarmForwarder">
+		<constructor-arg index="0"><ref bean="forwardedAlarmsFile"/></constructor-arg>	
+		<constructor-arg index="1"><value>false</value></constructor-arg>
+	</bean>
+
+	<bean id="userDefinedAttrFlag" class="com.hp.uca.expert.vp.pd.configurations.UserDefinedAttrFlag">
+		<property name="automationAttrFlag" value="TRUE" />
+		<property name="outageAttrFlag" value="TRUE" />
+	</bean>
+
+</beans>

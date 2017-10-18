@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<mappers xmlns="http://hp.com/uca/expert/instancemapper">
+	<mapper name='retrieveFPCMap'>
+	     <extract>
+	         <fieldName>additionalText</fieldName>
+	         <matcher><![CDATA[(?s)(?i).*<START>.*OBJCLASS *= *(\S*) *,.*FPC: +\S* +@ +(((?!/\*)\S)*)(/\*)*\..*<END>.*]]></matcher>
+	         <mappedTo>NNMi_NODE ."$1-FPC-$2"</mappedTo>
+	     </extract>
+	</mapper>
+	
+	<mapper name='retrievePICMap'>
+	     <extract>
+	         <fieldName>additionalText</fieldName>
+	         <matcher><![CDATA[(?s)(?i).*<START>.*OBJCLASS *= *(\S*) *,.*PIC: +\S* +@ +(((?!/\*)\S)*)(/\*)*\..*<END>.*]]></matcher>
+	         <mappedTo>NNMi_NODE ."$1-PIC-$2"</mappedTo>
+	     </extract>
+	</mapper>
+    <mapper name='retrieveFPCID'>
+	     <extract>
+	         <fieldName>additionalText</fieldName>
+	         <matcher><![CDATA[(?s)(?i).*<START>.*OBJCLASS *= *(\S*) *,.*(FPC): +\S* +@ +(((?!/\*)\S)*)(/\*)*\..*<END>.*]]></matcher>
+	         <mappedTo>$1_$2_$3</mappedTo>
+	     </extract>
+	</mapper>
+	
+	<mapper name='retrievePICID'>
+	     <extract>
+	         <fieldName>additionalText</fieldName>
+	         <matcher><![CDATA[(?s)(?i).*<START>.*OBJCLASS *= *(\S*) *,.*(PIC): +\S* +@ +([^/\*\s]*)/([^/\*\s]*)(/\*)*\..*<END>.*]]></matcher>
+	         <mappedTo>$1_$2_$3_$4</mappedTo>
+	     </extract>
+	</mapper>
+	
+	<mapper name='wm_test'>
+	     <extract>
+	         <fieldName>originatingManagedEntity</fieldName>
+	         <matcher><![CDATA[(?i)WorkMemory ([\S]*)]]></matcher>
+	         <mappedTo>$1</mappedTo>
+	     </extract>
+	</mapper>
+	
+	<mapper name='wm_withType_test'>
+	     <extract>
+	         <fieldName>originatingManagedEntity</fieldName>
+	         <matcher><![CDATA[(?i)WorkMemory ([\S]*)]]></matcher>
+	         <mappedTo>bts($1)</mappedTo>
+	     </extract>
+	</mapper>
+	
+	<cypherQuery name='GetCard'>
+	    <query><![CDATA[START endNode=node:CardsByUniqueId(uniqueId = {nodeUniqueId}) RETURN endNode, endNode.subDomain, endNode.type, endNode.uniqueId, COALESCE(endNode.MO?,""), COALESCE(endNode.name?,"")]]></query>
+	</cypherQuery>
+   
+	<cypherQuery name='GetServiceFromCard'>
+        <query><![CDATA[START startNode=node:CardsByUniqueId(uniqueId = {nodeUniqueId}) MATCH (startNode)-[*]->(endNode) WHERE has(endNode.type) AND endNode.type="service" RETURN startNode, endNode, endNode.subDomain, endNode.type, endNode.uniqueId, COALESCE(endNode.MO?,"") AS MO]]></query>
+    </cypherQuery>
+</mappers>
+        

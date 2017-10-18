@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Orchestra Filters to be used in filtering event cascading 
+in routes defined in OrchestraConfiguration.xml -->
+<filters xmlns="http://hp.com/uca/expert/filter">
+	<topFilter name="Orchestra-accept-all">
+		<allCondition>
+		</allCondition>
+	</topFilter>
+</filters>

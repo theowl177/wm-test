@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<filters xmlns="http://hp.com/uca/expert/filter">
+
+	<topFilter name="ReservedForGeneralBehavior" tagsGroup="GeneralBehavior">
+		<anyCondition>
+			<anyCondition tag="PATTERN_FPC">
+				<anyCondition tag="ComputeSourceUniqueIdMapper=wm_test">
+				
+					<stringFilterStatement>
+						<fieldName>originatingManagedEntity</fieldName>
+						<operator>matches</operator>
+						<fieldValue><![CDATA[(?i)WorkMemory .*]]></fieldValue>
+					</stringFilterStatement>
+						
+				</anyCondition>
+			</anyCondition>
+			
+		</anyCondition>
+	</topFilter>
+	
+	<!-- 
+	<topFilter name="Library_IP_MPLS" tagsGroup="ProblemDetection,GraphDB">
+		<anyCondition>
+			<anyCondition tag="PATTERN_Triggers">
+				<anyCondition tag="Trigger,SubAlarm,ComputeNodeCypherQuery=GetCard,RelNodeField1ComputeQuery=GetServiceFromCard,RelNodeField1ComputeKey=endNode.uniqueId">
+					<allCondition tag="ADText=RCA: [FRU POWER OFF],FaultCause=FRU POWER OFF,NodeType=card,SubType=FPC,ComputeProblemEntityMappers=retrieveFPCMap">
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>matches</operator>
+							<fieldValue><![CDATA[(?s)(?i).*<START>.*FPC.*<END>.*]]></fieldValue>
+						</stringFilterStatement>
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>contains</operator>
+							<fieldValue>TrapName=jnxFruPowerOff</fieldValue>
+						</stringFilterStatement>
+					</allCondition>
+					<allCondition tag="ADText=RCA: [POWER SUPPLY FAILURE],FaultCause=POWER SUPPLY FAILURE,NodeType=card,SubType=FPC,ComputeProblemEntityMappers=retrieveFPCMap">
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>matches</operator>
+							<fieldValue><![CDATA[(?s)(?i).*<START>.*FPC.*<END>.*]]></fieldValue>
+						</stringFilterStatement>
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>contains</operator>
+							<fieldValue>TrapName=jnxPowerSupplyFailure</fieldValue>
+						</stringFilterStatement>
+					</allCondition>
+					<allCondition tag="ADText=RCA: [FRU REMOVED],FaultCause=FRU REMOVED,NodeType=card,SubType=FPC,ComputeProblemEntityMappers=retrieveFPCMap">
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>matches</operator>
+							<fieldValue><![CDATA[(?s)(?i).*<START>.*FPC.*<END>.*]]></fieldValue>
+						</stringFilterStatement>
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>contains</operator>
+							<fieldValue>TrapName=jnxFruRemoval</fieldValue>
+						</stringFilterStatement>
+					</allCondition>
+					<allCondition tag="ADText=RCA: [FRU POWER OFF],FaultCause=FRU POWER OFF,NodeType=card,SubType=PIC,ComputeProblemEntityMappers=retrievePICMap">
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>matches</operator>
+							<fieldValue><![CDATA[(?s)(?i).*<START>.*PIC.*<END>.*]]></fieldValue>
+						</stringFilterStatement>
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>contains</operator>
+							<fieldValue>TrapName=jnxFruPowerOff</fieldValue>
+						</stringFilterStatement>
+					</allCondition>
+					<allCondition tag="ADText=RCA: [POWER SUPPLY FAILURE],FaultCause=POWER SUPPLY FAILURE,NodeType=card,SubType=PIC,ComputeProblemEntityMappers=retrievePICMap">
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>matches</operator>
+							<fieldValue><![CDATA[(?s)(?i).*<START>.*PIC.*<END>.*]]></fieldValue>
+						</stringFilterStatement>
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>contains</operator>
+							<fieldValue>TrapName=jnxPowerSupplyFailure</fieldValue>
+						</stringFilterStatement>
+					</allCondition>
+					<allCondition tag="ADText=RCA: [FRU REMOVED],FaultCause=FRU REMOVED,NodeType=card,SubType=PIC,ComputeProblemEntityMappers=retrievePICMap">
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>matches</operator>
+							<fieldValue><![CDATA[(?s)(?i).*<START>.*PIC.*<END>.*]]></fieldValue>
+						</stringFilterStatement>
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>contains</operator>
+							<fieldValue>TrapName=jnxFruRemoval</fieldValue>
+						</stringFilterStatement>
+					</allCondition>
+				</anyCondition>
+			</anyCondition>			
+
+			<anyCondition tag="PATTERN_ProblemAlarms">
+				<anyCondition tag="ProblemAlarm,TeMIP TT">
+					<allCondition>
+					    <stringFilterStatement>
+							<fieldName>userText</fieldName>
+							<operator>matches</operator>
+							<fieldValue><![CDATA[.*<trigger>.*</trigger><group>.*</group>.*]]></fieldValue>
+						</stringFilterStatement>
+						<stringFilterStatement>
+							<fieldName>additionalText</fieldName>
+							<operator>matches</operator>
+							<fieldValue>(?i)[\d\D]*(FRU POWER OFF|POWER SUPPLY FAILURE|FRU REMOVED)[\d\D]*</fieldValue>
+						</stringFilterStatement>
+					</allCondition>
+				</anyCondition>
+			</anyCondition>
+		</anyCondition>
+	</topFilter>
+	-->
+</filters>

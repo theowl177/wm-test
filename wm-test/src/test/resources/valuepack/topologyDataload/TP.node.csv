@@ -1,0 +1,8 @@
+@ref(),@const(tp)type,@const(IPMPLS)subDomain
+@index(TpsByUniqueId)uniqueId,subtype,MO,name,rate
+tp_1,,,tp_1,rate
+tp_5,,,tp_5,rate
+tp_6,,,tp_6,rate
+tp_7,,,tp_7,rate
+tp_8,,,tp_8,rate
+tp_2,,,tp_2,rate

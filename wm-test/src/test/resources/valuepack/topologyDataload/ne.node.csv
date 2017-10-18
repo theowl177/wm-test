@@ -1,0 +1,2 @@
+@ref(),@const(ne)type,@const(IPMPLS)subDomain
+@index(NesByUniqueId)uniqueId,subtype,MO,nodeName

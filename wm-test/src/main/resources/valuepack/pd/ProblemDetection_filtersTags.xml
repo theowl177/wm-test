@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tags xmlns="http://hp.com/uca/expert/filter/tags" xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<groups>
+		<group name="ProblemDetection">
+			<simpleTags>
+				<simpleTag name="SubAlarm" />
+				<simpleTag name="Trigger" />
+				<simpleTag name="ProblemAlarm" />
+				<simpleTag name="SubEvent" />
+				<simpleTag name="TriggerEvent" />
+			</simpleTags>
+			<paramTags>
+				<paramTag name="ComputeProblemEntityMappers"/>
+				<paramTag name="ADText"/>
+				<paramTag name="FaultCause"/>
+				<paramTag name="NodeType"/>
+				<paramTag name="SubType"/>
+			</paramTags>
+		</group>
+
+		<group name="GraphDB">
+			<simpleTags>
+			</simpleTags>
+			<paramTags>
+				<paramTag name="CypherQuery"/>
+				<paramTag name="ComputeNodeCypherQuery"/>
+			</paramTags>
+		</group>
+
+		<group name="GeneralBehavior">
+			<simpleTags>
+			</simpleTags>
+			<paramTags>
+				<paramTag name="ComputeSourceUniqueIdMapper"/>
+			</paramTags>
+		</group>
+
+		<group name="AvailableTroubleTickets">
+			<simpleTags>
+				<simpleTag name="TeMIP TT" />
+				<simpleTag name="ServiceManager" />
+			</simpleTags>
+			<paramTags>
+			</paramTags>
+		</group>
+
+		<group name="ProblemClassification">
+			<simpleTags>
+			</simpleTags>
+			<paramTags>
+				<paramTag name="Bundle.Name" /> <!-- a family of problems -->
+				<paramTag name="Bundle.Priority" type="numeric" /> <!-- the priority of this family -->
+				<paramTag name="Problem.Priority" type="numeric" /> <!-- the priority of the current problem -->
+			</paramTags>
+		</group>
+	</groups>
+</tags>

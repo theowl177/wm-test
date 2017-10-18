@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ProblemPolicies xmlns="http://config.pd.vp.expert.uca.hp.com/" xmlns:p1="http://config.im.vp.expert.uca.hp.com/">
+	<mainPolicy enableTopoAccess="true">
+		<candidateVisibility>
+			<candidateVisibilityTimeMode>Max</candidateVisibilityTimeMode>
+			<candidateVisibilityTimeValue>30000</candidateVisibilityTimeValue>
+			<markCandidate>true</markCandidate>
+		</candidateVisibility>
+		<transientFiltering>
+			<transientFilteringEnabled>false</transientFilteringEnabled>
+			<transientFilteringDelay>5000</transientFilteringDelay>
+		</transientFiltering>
+		<counterTotalNumberAlarms>Current</counterTotalNumberAlarms>
+		<actions>
+			<p1:defaultActionScriptReference>Exec_localhost</p1:defaultActionScriptReference>
+			<p1:action name="TeMIP EMS">
+				<p1:actionReference>TeMIP_AO_Directives_localhost</p1:actionReference>
+				<p1:actionClass>com.hp.uca.expert.vp.common.actions.temip.TeMIPActionsFactory</p1:actionClass>
+				<p1:attributeUsedForKeyDuringRecognition>userText</p1:attributeUsedForKeyDuringRecognition>
+				<p1:attributeUsedForKeyPbAlarmCreation>User_Text</p1:attributeUsedForKeyPbAlarmCreation>
+				<p1:strings>
+					<p1:string key="ocName">
+						<p1:value>.oc.prbtx</p1:value>
+					</p1:string>
+				</p1:strings>
+				<p1:longs>
+					<p1:long key="maxChildrenLength">
+						<p1:value>15000</p1:value>
+					</p1:long>
+				</p1:longs>
+				<p1:booleans>
+					<p1:boolean key="useOnlyGroupingKeys">
+						<p1:value>false</p1:value>
+					</p1:boolean>
+					<p1:boolean key="copyReferenceAlarmOnPbAlarmCreation">
+						<p1:value>false</p1:value>
+					</p1:boolean>
+					<p1:boolean key="copyReferenceAlarmWhenNotPbAlarm">
+						<p1:value>false</p1:value>
+					</p1:boolean>
+				</p1:booleans>
+			</p1:action>
+		</actions>
+		<troubleTicketActions>
+			<p1:troubleTicketAction name="TeMIP TT">
+				<p1:actionReference>TeMIP_TT_Directives_localhost</p1:actionReference>
+				<p1:actionClass>com.hp.uca.expert.vp.common.actions.temip.TeMIPTroubleTicketActionsFactory</p1:actionClass>
+				<p1:strings>
+					<p1:string key="TT_SERVER entity">
+						<p1:value>TT_SERVER .SM</p1:value>
+					</p1:string>
+					<p1:string key="CreateTemplateFile">
+						<p1:value>createTroubleTicketByValueRequest.xml</p1:value>
+					</p1:string>
+					<p1:string key="AssociateTemplateFile">
+						<p1:value>associateTroubleTicketByValueRequest.xml</p1:value>
+					</p1:string>
+					<p1:string key="CloseTemplateFile">
+						<p1:value>closeTroubleTicketByValueRequest.xml</p1:value>
+					</p1:string>
+					<p1:string key="DissociateTemplateFile">
+						<p1:value>dissociateTroubleTicketByValueRequest.xml</p1:value>
+					</p1:string>
+					<p1:string key="User">
+						<p1:value>temip</p1:value>
+					</p1:string>
+					<p1:string key="Input">
+						<p1:value>input</p1:value>
+					</p1:string>
+					<p1:string key="Type">
+						<p1:value>SYNCHRONOUS</p1:value>
+					</p1:string>
+				</p1:strings>
+			</p1:troubleTicketAction>
+		</troubleTicketActions>
+	</mainPolicy>
+	<problemPolicy name="ProblemDefault" enableComputeProblemEntityFromMappers="true" enableComputeProblemEntityFromFields="false">
+		<problemAlarm>
+			<delayForProblemAlarmCreation>0</delayForProblemAlarmCreation>
+			<delayForProblemAlarmClearance>0</delayForProblemAlarmClearance>
+		</problemAlarm>		
+		<troubleTicket>
+			<automaticTroubleTicketCreation>false</automaticTroubleTicketCreation>
+			<propagateTroubleTicketToSubAlarms>false</propagateTroubleTicketToSubAlarms>
+			<propagateTroubleTicketToProblemAlarm>false</propagateTroubleTicketToProblemAlarm>
+			<delayForTroubleTicketCreation>10000</delayForTroubleTicketCreation>
+		</troubleTicket>
+		<groupTickFlagAware>false</groupTickFlagAware>
+		<problemAlarmAbleToCreateGroup>false</problemAlarmAbleToCreateGroup>
+		<timeWindow>
+			<timeWindowMode>None</timeWindowMode>
+			<timeWindowBeforeTrigger>30000</timeWindowBeforeTrigger>
+			<timeWindowAfterTrigger>30000</timeWindowAfterTrigger>
+		</timeWindow>
+		<booleans/>
+		<strings/>
+		<longs/>
+	</problemPolicy>
+		
+</ProblemPolicies>

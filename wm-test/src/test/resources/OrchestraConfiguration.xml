@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OrchestraWorkflow xmlns="http://hp.com/uca/expert/orchestra/config" >
+   <Routes>
+      <Route name=" pd->  tp" >
+         <COPY>
+            <Source>
+               <ValuePackNameVersion><![CDATA[__PROJECT_NAME__-__PROJECT_VERSION__]]></ValuePackNameVersion>
+               <ScenarioName><![CDATA[com.hp.uca.expert.vp.pd.ProblemDetection]]></ScenarioName>
+            </Source>
+            <Destinations>
+               <Destination>
+                  <Target>
+                     <ValuePackNameVersion><![CDATA[__PROJECT_NAME__-__PROJECT_VERSION__]]></ValuePackNameVersion>
+                     <ScenarioName><![CDATA[com.hp.uca.expert.vp.tp.TopologyPropagation]]></ScenarioName>
+                  </Target>
+               </Destination>
+            </Destinations>
+         </COPY>
+      </Route>
+
+   </Routes>
+</OrchestraWorkflow>

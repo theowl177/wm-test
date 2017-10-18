@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ActionRegistryXML xmlns="http://registry.action.mediation.uca.hp.com/">
+
+	<MediationValuePack MvpName="temip" MvpVersion="1.0"
+		url="http://localhost:18192/uca/mediation/action/ActionService?WSDL"
+		brokerURL="failover://tcp://localhost:10000">
+
+		<Action actionReference="TeMIP_AO_Directives_localhost">
+			<ServiceName>aoDirective</ServiceName>
+			<NmsName>localhost</NmsName>
+		</Action>
+		<Action actionReference="TeMIP_FlowManagement">
+			<ServiceName>subscriptionManagement</ServiceName>
+			<NmsName>localTeMIP</NmsName>
+		</Action>
+		<Action actionReference="TeMIP_TT_Directives_localhost">
+			<ServiceName>ttDirective</ServiceName>
+			<NmsName>localTeMIP</NmsName>
+		</Action>
+	</MediationValuePack>
+
+	<MediationValuePack MvpName="other" MvpVersion="1.0"
+		url="http://localhost:18192/uca/mediation/action/ActionService?WSDL"
+		brokerURL="failover://tcp://localhost:10000">
+
+		<Action actionReference="MyOtherAction_localhost">
+			<ServiceName>dummyService</ServiceName>
+			<NmsName>localhost</NmsName>
+		</Action>
+		
+		<Action actionReference="MyOtherTT_localhost">
+			<ServiceName>dummyService</ServiceName>
+			<NmsName>localhost</NmsName>
+		</Action>
+
+	</MediationValuePack>
+</ActionRegistryXML>

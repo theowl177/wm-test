@@ -1,0 +1,5 @@
+@rel(cardContainsCard),@const(cardContainsCard)type
+@from(CardsByUniqueId)uniqueId,@to(CardsByUniqueId)uniqueId,@index(cardContainsCardsByUniqueId)uniqueId,name
+mebj96cgn01cn_fpc_10,card_1-fpc,mebj96cgn01cn_fpc_10|card_1-fpc,mebj96cgn01cn_fpc_10<-->card_1-fpc
+mebj96cgn01cn_pic_10_1,card_2-pic,mebj96cgn01cn_pic_10_1|card_2-pic,mebj96cgn01cn_pic_10_1<-->card_2-pic
+mebj96cgn01cn_fpc_2,mebj96cgn01cn_fpc_1,mebj96cgn01cn_fpc_2|mebj96cgn01cn_fpc_1,mebj96cgn01cn_fpc_2<-->mebj96cgn01cn_fpc_1
